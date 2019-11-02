@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour {
 
     if (Input.GetKey(jump)
       && velocity.y <= 0
-      && Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, jumpRayTest, 1 << LayerMask.NameToLayer("Tiles"))) {
+      && Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)) {
       velocity.y += jumpStrength;
     }
 
@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour {
     float multiplier = Mathf.Max(0f, 1f - drag * Time.fixedDeltaTime);
     velocity = multiplier * velocity;
 
-    RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << LayerMask.NameToLayer("Tiles"));
+    RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
 
     if (floorHit && velocity.y < 0) {
       velocity.y = 0;

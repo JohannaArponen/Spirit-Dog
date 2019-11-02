@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2028260228698817959}
   - component: {fileID: 6604655065085248896}
-  - component: {fileID: 1385118820}
   - component: {fileID: 7905179865660511383}
+  - component: {fileID: 1385118820}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -82,23 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1385118820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5134934673221544253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a222f16df5f2e3a45acce8bb443ed9c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.1
-  velocity: {x: 0, y: 0}
-  gravity: 0.1
-  drag: 0.05
-  col: {fileID: 0}
 --- !u!61 &7905179865660511383
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -125,3 +108,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1385118820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134934673221544253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a222f16df5f2e3a45acce8bb443ed9c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.1
+  velocity: {x: 0, y: 0}
+  gravity: 0.1
+  drag: 0.05
+  col: {fileID: 0}
+  jump: 32
+  jumpStrength: 5
+  jumpRayTest: 0.01
