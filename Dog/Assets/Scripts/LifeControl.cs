@@ -13,6 +13,7 @@ public class LifeControl : MonoBehaviour {
   public int lives {
     get => _lives; set {
       _lives = value;
+      UpdateHearts();
     }
   }
 
@@ -22,7 +23,7 @@ public class LifeControl : MonoBehaviour {
 
   void UpdateHearts() {
     foreach (var element in elements) {
-      DestroyImmediate(element);
+      Destroy(element);
     }
     elements.Clear();
 
@@ -32,6 +33,7 @@ public class LifeControl : MonoBehaviour {
 
       var rect = element.GetComponent<RectTransform>();
       rect.anchoredPosition -= new Vector2(i * (gap + rect.sizeDelta.x), 0);
+      elements.Add(element);
     }
   }
 }
