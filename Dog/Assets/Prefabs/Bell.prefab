@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 8704358753743357112}
   - component: {fileID: 184407771449223315}
   - component: {fileID: 1498834824623191736}
+  - component: {fileID: 3329221777027812512}
   m_Layer: 0
   m_Name: Bell
   m_TagString: Untagged
@@ -141,3 +142,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b7c26a577e14241a4b3bc870ab14ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3329221777027812512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446569492400471196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d89b66041d4024da94921c61b6ee24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relativeStart: {x: 0, y: 0.1, z: 0}
+  relativeEnd: {x: 0, y: -0.1, z: 0}

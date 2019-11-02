@@ -7,6 +7,7 @@ public class Bite : MonoBehaviour {
   public float biteDuration = 1f;
   public float biteCooldown = 1;
   private float lastBite = 0f;
+  public AudioSource audioData;
   public bool biting = false;
   // Update is called once per frame
   void Update() {
@@ -15,6 +16,7 @@ public class Bite : MonoBehaviour {
 
     if (Input.GetKey(bite)
       && Time.time - biteCooldown > lastBite) {
+      audioData.Play();
       lastBite = Time.time;
     }
   }
