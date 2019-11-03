@@ -37,7 +37,8 @@ public class CollectStatue : MonoBehaviour {
     if (hitTime != 0) {
       if (colliding && Time.time - collisionTimer > hitTime) {
         Physics2D.IgnoreCollision(gameObject.GetComponent<CircleCollider2D>(), tileMapCollider);
-      } else if (Time.time - collisionTimer - deathTimer > hitTime) {
+      }
+      if (Time.time - collisionTimer - deathTimer > hitTime) {
         Destroy(gameObject);
       }
     }
