@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
   public Animate runAnim;
   public float runAnimSpeedMult = 1f;
   public Animate jumpAnim;
+  public AudioSource jumpSound;
   public Animate biteAnim;
   public Animate deathAnim;
   public float deathMusicPitch = 0.2f;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour {
         || Physics2D.Raycast(transform.position - new Vector3(col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
         || Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
       )) {
+      jumpSound.Play();
       velocity.y += jumpStrength;
       lastJump = Time.time;
     }
