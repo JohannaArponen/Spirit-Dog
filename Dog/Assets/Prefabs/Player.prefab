@@ -171,7 +171,7 @@ MonoBehaviour:
   onHurtPush: {x: -0.05, y: 0.1}
   jump: 32
   jumpCooldown: 0.1
-  jumpStrength: 0.15
+  jumpStrength: 0.2
   jumpRayTest: 0.05
 --- !u!114 &648447343
 MonoBehaviour:

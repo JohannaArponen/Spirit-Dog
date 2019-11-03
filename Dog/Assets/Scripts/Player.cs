@@ -39,6 +39,10 @@ public class Player : MonoBehaviour {
     jumpAnim.frameTime = float.PositiveInfinity;
   }
 
+  void FixedUpdate() {
+
+  }
+
   // Update is called once per frame
   void Update() {
 
