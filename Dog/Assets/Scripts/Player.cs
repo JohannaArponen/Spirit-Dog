@@ -39,7 +39,11 @@ public class Player : MonoBehaviour {
     if (Input.GetKey(jump)
       && Time.time - jumpCooldown > lastJump
       && velocity.y == 0
-      && Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)) {
+      && (
+        Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
+        || Physics2D.Raycast(transform.position - new Vector3(col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
+        || Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
+        )) {
       velocity.y += jumpStrength;
       lastJump = Time.time;
     }
@@ -50,6 +54,12 @@ public class Player : MonoBehaviour {
     velocity = multiplier * velocity;
 
     RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
+    if (!floorHit) {
+      floorHit = Physics2D.Raycast(transform.position - new Vector3(col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
+      if (!floorHit) {
+        floorHit = Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
+      }
+    }
     if (bite.biting) {
       runAnim.enabled = false;
       biteAnim.enabled = true;

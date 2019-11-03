@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour {
   public GameObject target;
   public float minY = 0f;
+  public float maxY = 0f;
   public Vector2 displacement = new Vector2(Screen.width, Screen.height);
 
   // Update is called once per frame
@@ -12,6 +13,6 @@ public class CameraFollow : MonoBehaviour {
     var pos = transform.position;
     var tarPos = target.transform.position;
 
-    transform.position = new Vector3(tarPos.x + displacement.x, Mathf.Max(minY, tarPos.y) + displacement.y, pos.z);
+    transform.position = new Vector3(tarPos.x + displacement.x, Mathf.Max(minY, Mathf.Min(tarPos.y, maxY)) + displacement.y, pos.z);
   }
 }
