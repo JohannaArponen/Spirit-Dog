@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
   public Vector2 velocity;
   public float gravity = 1f;
   public float drag = 0.05f;
-  public Animate runAnim;
+  public AnimateForPlayer runAnim;
   public float runAnimSpeedMult = 1f;
   public Animate jumpAnim;
   public AudioSource jumpSound;
@@ -17,10 +17,12 @@ public class Player : MonoBehaviour {
   public float pitchSlowSpeed = 0.5f;
   public AudioSource music;
   public Animate hurtAnim;
+  public AudioSource hurtSound;
   public float hurtDuration = 0.5f;
   private float hurtUntil = 0f;
   public Vector2 onHurtPush = new Vector2(-0.1f, -0.2f);
   private BoxCollider2D col;
+  private Pause pause;
 
   public KeyCode jump = KeyCode.Space;
   public float jumpCooldown = 0.1f;
@@ -32,6 +34,9 @@ public class Player : MonoBehaviour {
   private Bite bite;
   private bool dead = false;
 
+  public GameObject winScreen;
+  public GameObject loseScreen;
+
   void Start() {
     col = GetComponent<BoxCollider2D>();
     lc = GetComponent<LifeControl>();
@@ -40,12 +45,12 @@ public class Player : MonoBehaviour {
   }
 
   void FixedUpdate() {
-
+    float multiplier = Mathf.Max(0f, 1f - drag * Time.deltaTime);
+    velocity = multiplier * velocity;
   }
 
   // Update is called once per frame
   void Update() {
-
     if (Input.GetKey(jump)
       && !dead
       && Time.time - jumpCooldown > lastJump
@@ -62,8 +67,6 @@ public class Player : MonoBehaviour {
 
     velocity.x += speed * Time.deltaTime;
     velocity.y -= gravity * Time.deltaTime;
-    float multiplier = Mathf.Max(0f, 1f - drag * Time.deltaTime);
-    velocity = multiplier * velocity;
 
     RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
     if (!floorHit) {
@@ -124,6 +127,7 @@ public class Player : MonoBehaviour {
   public void Hurt(int num, bool doPush = true) {
     lc.lives -= num;
     if (num > 0) {
+      hurtSound.Play();
       hurtUntil = Time.time + hurtDuration;
       runAnim.enabled = false;
       jumpAnim.enabled = false;
@@ -144,6 +148,7 @@ public class Player : MonoBehaviour {
       Camera.main.gameObject.GetComponent<CameraFollow>().enabled = false;
       speed = 0.2f;
       drag = 0.95f;
+      winScreen.SetActive(true);
     }
   }
 
@@ -152,5 +157,6 @@ public class Player : MonoBehaviour {
     speed = 0f;
     drag = 0.99f;
     dead = true;
+    loseScreen.SetActive(true);
   }
 }
