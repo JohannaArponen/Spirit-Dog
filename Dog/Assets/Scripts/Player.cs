@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
 
   public GameObject winScreen;
   public GameObject loseScreen;
+  public GameObject pauseButton;
 
   void Start() {
     col = GetComponent<BoxCollider2D>();
@@ -149,6 +150,7 @@ public class Player : MonoBehaviour {
       speed = 0.2f;
       drag = 0.95f;
       winScreen.SetActive(true);
+      Destroy(pauseButton);
     }
   }
 
@@ -158,5 +160,6 @@ public class Player : MonoBehaviour {
     drag = 0.99f;
     dead = true;
     loseScreen.SetActive(true);
+    Destroy(pauseButton);
   }
 }

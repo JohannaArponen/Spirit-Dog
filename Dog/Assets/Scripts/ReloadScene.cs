@@ -9,7 +9,11 @@ public class ReloadScene : MonoBehaviour {
   // Update is called once per frame
   void Update() {
     if (Input.GetKeyDown(reload)) {
-      SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+      Reload();
     }
+  }
+
+  public void Reload() {
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
   }
 }

@@ -7,6 +7,7 @@ public class Pause : MonoBehaviour {
   public KeyCode pause2 = KeyCode.P;
   public bool paused = false;
   public GameObject pauseGUI;
+  public GameObject pauseGUISecondary;
   public GameObject player;
   private Player playerScript;
 
@@ -15,6 +16,7 @@ public class Pause : MonoBehaviour {
   public AudioSource music;
 
   private bool pitchChangeFinish = true;
+  private float lastPress = 0f;
 
   void Start() {
     playerScript = player.GetComponent<Player>();
@@ -29,7 +31,6 @@ public class Pause : MonoBehaviour {
   }
 
   void FixedUpdate() {
-
     if (!pitchChangeFinish) {
       if (paused) {
         music.pitch = Mathf.Max(pauseMusicPitch, music.pitch - pitchSlowSpeed * 0.05f);
@@ -43,21 +44,12 @@ public class Pause : MonoBehaviour {
         }
       }
     }
-    if (Input.GetMouseButton(0) || Input.GetMouseButton(1)) {
-      if (paused) {
-        UnPause();
-      }
-    } else if (Input.GetKeyDown(pause) || Input.GetKeyDown(pause2)) {
+    if (lastPress < Time.realtimeSinceStartup - 0.1f && (Input.GetKeyDown(pause) || Input.GetKeyDown(pause2))) {
+      lastPress = Time.realtimeSinceStartup;
       if (paused) {
         UnPause();
       } else {
         PauseGame();
-      }
-    } else {
-      if (paused) {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
-          UnPause();
-        };
       }
     }
   }
@@ -74,6 +66,7 @@ public class Pause : MonoBehaviour {
     playerScript.enabled = true;
     Time.timeScale = 1f;
     pauseGUI.SetActive(false);
+    pauseGUISecondary.SetActive(false);
     paused = false;
     pitchChangeFinish = false;
   }

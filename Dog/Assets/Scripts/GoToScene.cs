@@ -9,7 +9,11 @@ public class GoToScene : MonoBehaviour {
   // Update is called once per frame
   void Update() {
     if (Input.GetKeyDown(menuKey)) {
-      SceneManager.LoadScene(sceneName);
+      DoGoToScene();
     }
+  }
+
+  public void DoGoToScene() {
+    SceneManager.LoadScene(sceneName);
   }
 }
