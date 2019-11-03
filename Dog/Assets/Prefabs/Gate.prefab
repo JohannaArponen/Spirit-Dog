@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6094042488307726935}
   - component: {fileID: 319613490424708441}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Swing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7440726920452044750}
   - component: {fileID: 5702298992653211870}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5043115552793951061}
   - component: {fileID: 4114487100677798482}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 5947751575269026642}
   - component: {fileID: 7293822601750029181}
   - component: {fileID: 1598091561486726360}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,3 +313,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b40390d8ba9b4e4db3c7e21b454463c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioData: {fileID: 0}

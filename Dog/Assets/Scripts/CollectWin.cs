@@ -6,10 +6,8 @@ public class CollectWin : MonoBehaviour {
   public AudioSource audioData;
 
   void OnTriggerEnter2D(Collider2D col) {
-    if (!audioData.isPlaying) {
-      col.GetComponent<Player>().Win();
-      if (audioData != null)
-        audioData.Play();
-    }
+    col.GetComponent<Player>().Win();
+    if (audioData != null)
+      audioData.Play();
   }
 }
