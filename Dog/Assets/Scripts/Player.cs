@@ -11,6 +11,10 @@ public class Player : MonoBehaviour {
   public float runAnimSpeedMult = 1f;
   public Animate jumpAnim;
   public Animate biteAnim;
+  public Animate deathAnim;
+  public float deathMusicPitch = 0.2f;
+  public float pitchSlowSpeed = 0.5f;
+  public AudioSource music;
   public Animate hurtAnim;
   public float hurtDuration = 0.5f;
   private float hurtUntil = 0f;
@@ -25,6 +29,7 @@ public class Player : MonoBehaviour {
 
   private LifeControl lc;
   private Bite bite;
+  private bool dead = false;
 
   void Start() {
     col = GetComponent<BoxCollider2D>();
@@ -37,13 +42,14 @@ public class Player : MonoBehaviour {
   void Update() {
 
     if (Input.GetKey(jump)
+      && !dead
       && Time.time - jumpCooldown > lastJump
       && velocity.y == 0
       && (
         Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
         || Physics2D.Raycast(transform.position - new Vector3(col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
         || Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
-        )) {
+      )) {
       velocity.y += jumpStrength;
       lastJump = Time.time;
     }
@@ -60,7 +66,17 @@ public class Player : MonoBehaviour {
         floorHit = Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
       }
     }
-    if (bite.biting) {
+    // Good animation system in work
+    if (dead) {
+      music.pitch = Mathf.Max(deathMusicPitch, music.pitch - pitchSlowSpeed * Time.deltaTime);
+      deathAnim.enabled = true;
+      runAnim.enabled = false;
+      biteAnim.enabled = false;
+      jumpAnim.enabled = false;
+      hurtAnim.enabled = false;
+      deathAnim.index = deathAnim.index;
+    } else if (bite.biting) {
+      deathAnim.enabled = false;
       runAnim.enabled = false;
       biteAnim.enabled = true;
       jumpAnim.enabled = false;
@@ -69,6 +85,7 @@ public class Player : MonoBehaviour {
       biteAnim.frameTime = 1 / (velocity.x * runAnimSpeedMult);
     } else if (hurtUntil < Time.time) {
       if (floorHit) {
+        deathAnim.enabled = false;
         runAnim.enabled = true;
         biteAnim.enabled = false;
         jumpAnim.enabled = false;
@@ -76,6 +93,7 @@ public class Player : MonoBehaviour {
         runAnim.index = runAnim.index;
         runAnim.frameTime = 1 / (velocity.x * runAnimSpeedMult);
       } else {
+        deathAnim.enabled = false;
         runAnim.enabled = false;
         jumpAnim.enabled = true;
         hurtAnim.enabled = false;
@@ -88,7 +106,6 @@ public class Player : MonoBehaviour {
         }
       }
     }
-
     if (floorHit && velocity.y < 0) {
       velocity.y = 0;
       transform.position = new Vector3(transform.position.x, floorHit.point.y + col.size.y / 2, transform.position.z);
@@ -109,12 +126,25 @@ public class Player : MonoBehaviour {
     }
     if (doPush) {
       velocity += onHurtPush;
+      velocity = new Vector2(Mathf.Max(velocity.x, onHurtPush.x), Mathf.Min(velocity.y, onHurtPush.y));
+    }
+    if (lc.lives <= 0) {
+      Death();
     }
   }
 
   public void Win() {
+    if (!dead) {
+      Camera.main.gameObject.GetComponent<CameraFollow>().enabled = false;
+      speed = 0.2f;
+      drag = 0.95f;
+    }
+  }
+
+  public void Death() {
     Camera.main.gameObject.GetComponent<CameraFollow>().enabled = false;
     speed = 0f;
-    drag = 0.9f;
+    drag = 0.99f;
+    dead = true;
   }
 }
