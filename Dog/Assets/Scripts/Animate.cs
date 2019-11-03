@@ -22,7 +22,7 @@ public class Animate : MonoBehaviour {
   // Start is called before the first frame update
   void Start() {
     if (frameTime <= 0) {
-      Debug.LogWarning("Frame time of animation 0. Setting to infinite");
+      Debug.LogWarning("Frame time of animation 0. Animation will not play");
       frameTime = float.PositiveInfinity;
     }
     sr = GetComponent<SpriteRenderer>();
@@ -32,12 +32,14 @@ public class Animate : MonoBehaviour {
   // Update is called once per frame
   void Update() {
     time += Time.deltaTime;
-    while (time > frameTime) {
-      sr.sprite = sprites[_index];
-      time -= frameTime;
-      _index++;
-      if (_index >= sprites.Length) {
-        _index = 0;
+    if (frameTime > 0) {
+      while (time > frameTime) {
+        sr.sprite = sprites[_index];
+        time -= frameTime;
+        _index++;
+        if (_index >= sprites.Length) {
+          _index = 0;
+        }
       }
     }
   }

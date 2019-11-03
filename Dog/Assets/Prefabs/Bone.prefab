@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 420462909901529360}
   - component: {fileID: 1421841691122291800}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,8 @@ GameObject:
   - component: {fileID: 8704358753743357112}
   - component: {fileID: 184407771449223315}
   - component: {fileID: 7510664060937232479}
-  m_Layer: 0
+  - component: {fileID: -1440878356477278818}
+  m_Layer: 10
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,3 +143,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 100
+--- !u!114 &-1440878356477278818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446569492400471196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d89b66041d4024da94921c61b6ee24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relativeStart: {x: 0, y: 0.1, z: 0}
+  relativeEnd: {x: 0, y: -0.1, z: 0}
