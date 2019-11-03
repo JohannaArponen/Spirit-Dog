@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 420462909901529360}
   - component: {fileID: 1421841691122291800}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 184407771449223315}
   - component: {fileID: 7510664060937232479}
   - component: {fileID: -1440878356477278818}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
