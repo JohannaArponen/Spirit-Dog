@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CollectStatue : MonoBehaviour {
   public AudioSource rollSound;
@@ -13,7 +14,7 @@ public class CollectStatue : MonoBehaviour {
   private bool colliding = true;
 
   void Start() {
-    tileMapCollider = GameObject.Find("Tilemap").GetComponent<CompositeCollider2D>();
+    tileMapCollider = GameObject.Find("Tilemap").GetComponent<TilemapCollider2D>();
   }
 
   void OnTriggerEnter2D(Collider2D col) {
@@ -37,7 +38,7 @@ public class CollectStatue : MonoBehaviour {
       if (colliding && Time.time - collisionTimer > hitTime) {
         Physics2D.IgnoreCollision(gameObject.GetComponent<CircleCollider2D>(), tileMapCollider);
       } else if (Time.time - collisionTimer - deathTimer > hitTime) {
-        DestroyImmediate(gameObject);
+        Destroy(gameObject);
       }
     }
   }

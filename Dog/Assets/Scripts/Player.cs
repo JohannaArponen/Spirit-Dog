@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
   public Animate runAnim;
   public float runAnimSpeedMult = 1f;
   public Animate jumpAnim;
+  public Animate biteAnim;
   public Animate hurtAnim;
   public float hurtDuration = 0.5f;
   private float hurtUntil = 0f;
@@ -23,10 +24,12 @@ public class Player : MonoBehaviour {
   public float jumpRayTest = 0.05f;
 
   private LifeControl lc;
+  private Bite bite;
 
   void Start() {
     col = GetComponent<BoxCollider2D>();
     lc = GetComponent<LifeControl>();
+    bite = GetComponent<Bite>();
     jumpAnim.frameTime = float.PositiveInfinity;
   }
 
@@ -47,9 +50,17 @@ public class Player : MonoBehaviour {
     velocity = multiplier * velocity;
 
     RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
-    if (hurtUntil < Time.time) {
+    if (bite.biting) {
+      runAnim.enabled = false;
+      biteAnim.enabled = true;
+      jumpAnim.enabled = false;
+      hurtAnim.enabled = false;
+      biteAnim.index = biteAnim.index;
+      biteAnim.frameTime = 1 / (velocity.x * runAnimSpeedMult);
+    } else if (hurtUntil < Time.time) {
       if (floorHit) {
         runAnim.enabled = true;
+        biteAnim.enabled = false;
         jumpAnim.enabled = false;
         hurtAnim.enabled = false;
         runAnim.index = runAnim.index;
@@ -58,6 +69,7 @@ public class Player : MonoBehaviour {
         runAnim.enabled = false;
         jumpAnim.enabled = true;
         hurtAnim.enabled = false;
+        biteAnim.enabled = false;
         jumpAnim.index = jumpAnim.index;
         if (velocity.y > 0) {
           jumpAnim.index = 0; // Jumpping up
