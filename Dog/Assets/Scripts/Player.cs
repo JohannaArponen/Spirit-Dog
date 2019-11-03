@@ -111,4 +111,10 @@ public class Player : MonoBehaviour {
       velocity += onHurtPush;
     }
   }
+
+  public void Win() {
+    Camera.main.gameObject.GetComponent<CameraFollow>().enabled = false;
+    speed = 0f;
+    drag = 0.9f;
+  }
 }
