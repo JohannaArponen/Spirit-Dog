@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 184407771449223315}
   - component: {fileID: 1498834824623191736}
   - component: {fileID: 3329221777027812512}
+  - component: {fileID: 1295934997}
   m_Layer: 10
   m_Name: Bell
   m_TagString: Untagged
@@ -127,7 +128,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.11}
   serializedVersion: 2
   m_Radius: 0.5
 --- !u!114 &1498834824623191736
@@ -156,3 +157,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relativeStart: {x: 0, y: 0.1, z: 0}
   relativeEnd: {x: 0, y: -0.1, z: 0}
+  speed: 2
+--- !u!114 &1295934997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446569492400471196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0972785247c924c883d9678f326d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 0.6
+  maxDistance: 10

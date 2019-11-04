@@ -5,7 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour {
   public float speed = 5f;
   public Vector2 velocity;
-  public float gravity = 1f;
+  public float defaultGravity = 1f;
+  private float gravity = 1f;
+  public float jumpGravity = 0.5f;
+  public float downPressGravity = 1.5f;
   public float drag = 0.05f;
   public AnimateForPlayer runAnim;
   public float runAnimSpeedMult = 1f;
@@ -25,6 +28,7 @@ public class Player : MonoBehaviour {
   private Pause pause;
 
   public KeyCode jump = KeyCode.Space;
+  public KeyCode jumpDown = KeyCode.S;
   public float jumpCooldown = 0.1f;
   private float lastJump = 0f;
   public float jumpStrength = 5f;
@@ -37,6 +41,7 @@ public class Player : MonoBehaviour {
   public GameObject winScreen;
   public GameObject loseScreen;
   public GameObject pauseButton;
+  public GameObject pauseMenu;
 
   void Start() {
     col = GetComponent<BoxCollider2D>();
@@ -46,12 +51,33 @@ public class Player : MonoBehaviour {
   }
 
   void FixedUpdate() {
-    float multiplier = Mathf.Max(0f, 1f - drag * Time.deltaTime);
+    float multiplier = Mathf.Max(0f, 1f - drag * Time.fixedDeltaTime);
     velocity = multiplier * velocity;
-  }
 
-  // Update is called once per frame
-  void Update() {
+    velocity.x += speed * Time.fixedDeltaTime;
+    velocity.y -= gravity * Time.fixedDeltaTime;
+
+    RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
+    if (!floorHit) {
+      floorHit = Physics2D.Raycast(transform.position - new Vector3(col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
+      if (!floorHit) {
+        floorHit = Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
+      }
+    }
+    if (Input.GetKey(jumpDown) && floorHit && floorHit.collider.tag != "Ground") {
+      floorHit = new RaycastHit2D();
+    }
+    if (floorHit && velocity.y < 0) {
+      velocity.y = 0;
+      transform.position = new Vector3(transform.position.x, floorHit.point.y + col.size.y / 2, transform.position.z);
+    }
+    if (velocity.y > 0 && Input.GetKey(jump)) {
+      gravity = jumpGravity;
+    } else if (velocity.y < 0 && Input.GetKey(jumpDown)) {
+      gravity = downPressGravity;
+    } else {
+      gravity = defaultGravity;
+    }
     if (Input.GetKey(jump)
       && !dead
       && Time.time - jumpCooldown > lastJump
@@ -62,23 +88,13 @@ public class Player : MonoBehaviour {
         || Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, jumpRayTest, 1 << 9)
       )) {
       jumpSound.Play();
-      velocity.y += jumpStrength;
+      velocity.y = jumpStrength;
+      print(123);
       lastJump = Time.time;
-    }
-
-    velocity.x += speed * Time.deltaTime;
-    velocity.y -= gravity * Time.deltaTime;
-
-    RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
-    if (!floorHit) {
-      floorHit = Physics2D.Raycast(transform.position - new Vector3(col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
-      if (!floorHit) {
-        floorHit = Physics2D.Raycast(transform.position - new Vector3(-col.size.x / 2, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
-      }
     }
     // Good animation system in work
     if (dead) {
-      music.pitch = Mathf.Max(deathMusicPitch, music.pitch - pitchSlowSpeed * Time.deltaTime);
+      music.pitch = Mathf.Max(deathMusicPitch, music.pitch - pitchSlowSpeed * Time.fixedDeltaTime);
       deathAnim.enabled = true;
       runAnim.enabled = false;
       biteAnim.enabled = false;
@@ -116,13 +132,14 @@ public class Player : MonoBehaviour {
         }
       }
     }
-    if (floorHit && velocity.y < 0) {
-      velocity.y = 0;
-      transform.position = new Vector3(transform.position.x, floorHit.point.y + col.size.y / 2, transform.position.z);
-    }
 
 
     transform.position += new Vector3(velocity.x, velocity.y, 0);
+  }
+
+  // Update is called once per frame
+  void Update() {
+    // Hahaha physics problems fixed by just doing fixed update hahahahahaha
   }
 
   public void Hurt(int num, bool doPush = true) {
@@ -150,16 +167,21 @@ public class Player : MonoBehaviour {
       speed = 0.2f;
       drag = 0.95f;
       winScreen.SetActive(true);
-      Destroy(pauseButton);
+      pauseButton.SetActive(false);
+      pauseMenu.SetActive(true);
     }
   }
 
   public void Death() {
-    Camera.main.gameObject.GetComponent<CameraFollow>().enabled = false;
-    speed = 0f;
-    drag = 0.99f;
-    dead = true;
-    loseScreen.SetActive(true);
-    Destroy(pauseButton);
+    if (!dead) {
+      Camera.main.gameObject.GetComponent<CameraFollow>().enabled = false;
+      dead = true;
+      speed = 0f;
+      drag = 5;
+      GetComponent<Bite>().enabled = false;
+      loseScreen.SetActive(true);
+      pauseButton.SetActive(false);
+      pauseMenu.SetActive(true);
+    }
   }
 }

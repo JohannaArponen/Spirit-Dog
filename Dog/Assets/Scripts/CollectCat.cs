@@ -9,16 +9,18 @@ public class CollectCat : MonoBehaviour {
   private bool wasHit = false;
 
   void OnTriggerEnter2D(Collider2D col) {
-    if (!wasHit) {
-      col.GetComponent<Player>().Hurt(1);
-      hitAnim.enabled = true;
-      defaultAnim.enabled = false;
-      GetComponent<CatWalk>().enabled = false;
-      GetComponent<SpriteRenderer>().flipX = false;
-      if (audioData != null)
-        audioData.Play();
-      wasHit = true;
+    if (col.tag == "Player") {
+      if (!wasHit) {
+        col.GetComponent<Player>().Hurt(1);
+        defaultAnim.enabled = false;
+        hitAnim.enabled = true;
+        hitAnim.index = hitAnim.index;
+        GetComponent<CatWalk>().enabled = false;
+        GetComponent<SpriteRenderer>().flipX = false;
+        if (audioData != null)
+          audioData.Play();
+        wasHit = true;
+      }
     }
   }
-
 }

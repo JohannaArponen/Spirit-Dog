@@ -24,12 +24,14 @@ public class CollectGhost : MonoBehaviour {
   }
 
   void OnTriggerEnter2D(Collider2D col) {
-    if (col.GetComponent<Bite>().biting) {
-      col.GetComponent<PointControl>().Points += points;
-      GetComponent<CircleCollider2D>().enabled = false;
-      hitTime = Time.time;
-      if (saveSound != null)
-        saveSound.Play();
+    if (col.tag == "Player") {
+      if (col.GetComponent<Bite>().biting) {
+        col.GetComponent<PointControl>().Points += points;
+        GetComponent<CircleCollider2D>().enabled = false;
+        hitTime = Time.time;
+        if (saveSound != null)
+          saveSound.Play();
+      }
     }
   }
 }

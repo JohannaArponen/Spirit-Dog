@@ -63,6 +63,7 @@ MonoBehaviour:
   pause2: 112
   paused: 0
   pauseGUI: {fileID: 0}
+  pauseGUISecondary: {fileID: 0}
   player: {fileID: 0}
   pauseMusicPitch: 0.5
   pitchSlowSpeed: 0.5
