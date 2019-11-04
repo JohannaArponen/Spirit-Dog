@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CollectLife : MonoBehaviour {
   void OnTriggerEnter2D(Collider2D col) {
-    col.GetComponent<LifeControl>().lives++;
-    Destroy(gameObject);
+    if (col.tag == "Player") {
+      col.GetComponent<LifeControl>().lives++;
+      Destroy(gameObject);
+    }
   }
 }

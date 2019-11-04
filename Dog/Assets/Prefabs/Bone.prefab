@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 184407771449223315}
   - component: {fileID: 7510664060937232479}
   - component: {fileID: -1440878356477278818}
+  - component: {fileID: 1136082882}
   m_Layer: 10
   m_Name: Bone
   m_TagString: Untagged
@@ -157,3 +158,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relativeStart: {x: 0, y: 0.1, z: 0}
   relativeEnd: {x: 0, y: -0.1, z: 0}
+  speed: 2
+--- !u!114 &1136082882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446569492400471196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0972785247c924c883d9678f326d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 0.6
+  maxDistance: 10
