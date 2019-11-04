@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-  public float speed = 5f;
+  public float speed = 0.025f;
+  public float speedPerHealth = 0.005f;
+  public float speedPerSecond = 0.001f;
   public Vector2 velocity;
   public float defaultGravity = 1f;
   private float gravity = 1f;
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour {
   public Vector2 onHurtPush = new Vector2(-0.1f, -0.2f);
   private BoxCollider2D col;
   private Pause pause;
+  private float timeStart = 0f;
 
   public KeyCode jump = KeyCode.Space;
   public KeyCode jumpDown = KeyCode.S;
@@ -48,13 +51,16 @@ public class Player : MonoBehaviour {
     lc = GetComponent<LifeControl>();
     bite = GetComponent<Bite>();
     jumpAnim.frameTime = float.PositiveInfinity;
+    timeStart = Time.time;
   }
 
   void FixedUpdate() {
     float multiplier = Mathf.Max(0f, 1f - drag * Time.fixedDeltaTime);
     velocity = multiplier * velocity;
 
-    velocity.x += speed * Time.fixedDeltaTime;
+    timeStart += Time.fixedDeltaTime;
+    if (!dead)
+      velocity.x += (speed + speedPerHealth * lc.lives + speedPerSecond * timeStart) * Time.fixedDeltaTime;
     velocity.y -= gravity * Time.fixedDeltaTime;
 
     RaycastHit2D floorHit = Physics2D.Raycast(transform.position - new Vector3(0, col.size.y / 2), Vector2.down, -velocity.y, 1 << 9);
